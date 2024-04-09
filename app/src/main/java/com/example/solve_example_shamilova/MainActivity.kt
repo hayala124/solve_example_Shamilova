@@ -1,5 +1,6 @@
 package com.example.solve_example_shamilova
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,12 +17,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var editValue: EditText
 
     private var number_1 = 0
-    private var number_2: Int = 0
-    private var operation: Char = ' '
+    private var number_2 = 0
+    private var operation = ' '
     private var countRightAnswer = 0
     private var countWrongAnswer = 0
     private var count = 0
-    private var percent = 0
+    private var percent = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -66,9 +67,13 @@ class MainActivity : AppCompatActivity() {
         buttonCheck.isEnabled = false
         buttonStart.isEnabled = true
         count++
-
+        binding.txtAllExamples.text = count.toString()
+        percent = countRightAnswer * 100 / count.toDouble()
+        binding.txtPercentageCorrectAnswers.text = String.format("%.2f%%", percent)
     }
     private fun onButtonStartPressed(): Triple<Int, Int, Char> {
+        editValue.setText("")
+        editValue.setBackgroundColor(Color.WHITE)
         var number1: Int
         var number2: Int
         var operation = getRandomOperation()
