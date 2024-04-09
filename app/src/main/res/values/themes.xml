@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Solve_example_Shamilova" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Solve_example_Shamilova" parent="Base.Theme.Solve_example_Shamilova" />
+
+    <style name="textStyle_1" parent="textStyle_2">
+        <item name="android:layout_margin">20dp</item>
+    </style>
+
+    <style name="textStyle_2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="textStyle_3" parent="textStyle_1">
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="textStyle_4" parent="textStyle_1">
+        <item name="android:textSize">40sp</item>
+        <item name="android:paddingTop">30dp</item>
+    </style>
+
+    <style name="textStyle_5" parent="textStyle_2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/colorButton</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginBottom">25dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+    </style>
+</resources>
