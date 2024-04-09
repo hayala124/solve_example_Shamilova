@@ -8,6 +8,7 @@
     tools:ignore="HardcodedText">
 
     <LinearLayout
+        android:id="@+id/linearLayout_Example"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -37,7 +38,7 @@
 
         <EditText
             android:id="@+id/editValue"
-            android:layout_width="70dp"
+            android:layout_width="100dp"
             android:gravity="center"
             style="@style/textStyle_4"
             android:inputType="number"
