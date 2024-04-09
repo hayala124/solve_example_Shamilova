@@ -15,10 +15,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonCheck: Button
     private lateinit var editValue: EditText
 
-    var number_1: Int = 0
-    var number_2: Int = 0
-    var operation: Char = ' '
-
+    private var number_1 = 0
+    private var number_2: Int = 0
+    private var operation: Char = ' '
+    private var countRightAnswer = 0
+    private var countWrongAnswer = 0
+    private var count = 0
+    private var percent = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,17 +49,24 @@ class MainActivity : AppCompatActivity() {
             (operation == '*' && ((number1 * number2).toString() == editValue.text.toString())) ||
             (operation == '/' && ((number1 / number2).toString() == editValue.text.toString()))
         ) {
-            button_edit_enabled_false()
             editValue.setBackgroundColor(Color.GREEN)
-        } else {
+            countRightAnswer++
+            binding.txtNumberRight.text = countRightAnswer.toString()
             button_edit_enabled_false()
+        } else {
             editValue.setBackgroundColor(Color.RED)
+            countWrongAnswer++
+            binding.txtNumberWrong.text = countWrongAnswer.toString()
+            button_edit_enabled_false()
         }
     }
 
     private fun button_edit_enabled_false() {
         editValue.isEnabled = false
         buttonCheck.isEnabled = false
+        buttonStart.isEnabled = true
+        count++
+
     }
     private fun onButtonStartPressed(): Triple<Int, Int, Char> {
         var number1: Int
