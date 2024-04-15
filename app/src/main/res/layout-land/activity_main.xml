@@ -14,89 +14,100 @@
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtPercentageCorrectAnswers">
 
         <TextView
             android:id="@+id/txtFirstOperand"
-            style="@style/textStyle_4"
+            style="@style/textStyle_4_4"
             android:text="00" />
 
         <TextView
             android:id="@+id/txtOperation"
-            style="@style/textStyle_4"
+            style="@style/textStyle_4_4"
             android:text="+" />
 
         <TextView
             android:id="@+id/txtSecondOperand"
-            style="@style/textStyle_4"
+            style="@style/textStyle_4_4"
             android:text="00" />
 
         <TextView
             android:id="@+id/txtEqually"
-            style="@style/textStyle_4"
+            style="@style/textStyle_4_4"
             android:text="=" />
 
         <EditText
             android:id="@+id/editValue"
+            style="@style/textStyle_4_4"
             android:layout_width="100dp"
-            android:gravity="center"
-            style="@style/textStyle_4"
-            android:inputType="numberSigned"
             android:enabled="false"
-            android:hint="00" />
+            android:gravity="center"
+            android:hint="00"
+            android:inputType="numberSigned" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnStart"
-        style="@style/textStyle_5"
+        style="@style/textStyle_5_5"
         android:text="СТАРТ"
         app:cornerRadius="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/linearLayout_Example"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout_Example"/>
 
     <Button
         android:id="@+id/btnCheck"
-        style="@style/textStyle_5"
+        style="@style/textStyle_5_5"
         android:text="ПРОВЕРКА"
         app:cornerRadius="5dp"
         android:enabled="false"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toTopOf="@id/btnStart"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/linearLayout_Example"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/linearLayout_Example" />
 
     <TextView
         android:id="@+id/txt_decided_examples"
-        style="@style/textStyle_1"
+        style="@style/textStyle_1_1"
         android:text="@string/decidedExamples"
         android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/txtAllExamples"
-        style="@style/textStyle_1"
+        style="@style/textStyle_1_1"
         android:text="0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_decided_examples" />
+        app:layout_constraintStart_toEndOf="@id/txt_decided_examples"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/RightAndWrongAnswers"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtAllExamples">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_decided_examples">
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/txtRightExamples"
-            style="@style/textStyle_1"
-            android:text="Правильно" />
+            style="@style/textStyle_1_1"
+            android:text="Правильно"
+            android:gravity="start"/>
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:id="@+id/txtWrongExamples"
-            style="@style/textStyle_1"
-            android:text="Неправильно" />
+            style="@style/textStyle_1_1"
+            android:text="Неправильно"
+            android:gravity="end"/>
 
     </LinearLayout>
 
@@ -104,28 +115,38 @@
         android:id="@+id/Number_Right_Wrong_Answers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RightAndWrongAnswers">
 
         <TextView
             android:id="@+id/txtNumberRight"
-            style="@style/textStyle_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            style="@style/textStyle_2_2"
+            android:paddingLeft="80dp"
             android:layout_marginEnd="180dp"
-            android:text="0"/>
-        <TextView
-            android:id="@+id/txtNumberWrong"
-            style="@style/textStyle_2"
             android:text="0" />
 
+        <TextView
+            android:id="@+id/txtNumberWrong"
+            style="@style/textStyle_2_2"
+            android:paddingEnd="80dp"
+            android:text="0" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/txtPercentageCorrectAnswers"
-        style="@style/textStyle_3"
+        style="@style/textStyle_3_3"
         android:text="0.00%"
-        android:paddingTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/Number_Right_Wrong_Answers"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_margin="0dp"
+        app:layout_constraintStart_toStartOf="@id/Number_Right_Wrong_Answers"
+        app:layout_constraintEnd_toEndOf="@id/Number_Right_Wrong_Answers"
+        app:layout_constraintTop_toBottomOf="@id/Number_Right_Wrong_Answers"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

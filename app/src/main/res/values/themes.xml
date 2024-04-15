@@ -38,4 +38,33 @@
         <item name="android:layout_marginStart">10dp</item>
         <item name="android:layout_marginEnd">10dp</item>
     </style>
+
+
+    <style name="textStyle_1_1" parent="textStyle_2_2">
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="textStyle_2_2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textStyle_3_3" parent="textStyle_1_1">
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="textStyle_4_4" parent="textStyle_1_1">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="textStyle_5_5" parent="textStyle_2_2">
+        <item name="android:layout_width">250dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundTint">@color/colorButton</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
 </resources>
