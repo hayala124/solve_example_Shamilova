@@ -36,13 +36,8 @@ class MainActivity : AppCompatActivity() {
         buttonCheck = binding.btnCheck
         editValue = binding.editValue
 
-        buttonStart.setOnClickListener {
-            val (number1, number2, operation) = onButtonStartPressed()
-            this.number_1 = number1
-            this.number_2 = number2
-            this.operation = operation
-        }
-        buttonCheck.setOnClickListener { onButtonCheckPressed(number_1, number_2, operation) }
+        buttonStart.setOnClickListener { onButtonStartPressed() }
+        buttonCheck.setOnClickListener { onButtonCheckPressed() }
 
         if (savedInstanceState == null) {
             number_1 = 0
@@ -127,13 +122,13 @@ class MainActivity : AppCompatActivity() {
         @JvmStatic private val BUTTON_CHECK_ENABLED = "button_start"
         @JvmStatic private val EDIT_TEXT_ENABLED = "edit_text"
     }
-    private fun onButtonCheckPressed(number1: Int, number2: Int, operation: Char) {
+    private fun onButtonCheckPressed() {
         if (editValue.text.isEmpty()) {
             Toast.makeText(applicationContext, "Введите ответ!", Toast.LENGTH_SHORT).show()
-        } else if ((operation == '+' && ((number1 + number2).toString() == editValue.text.toString())) ||
-            (operation == '-' && ((number1 - number2).toString() == editValue.text.toString())) ||
-            (operation == '*' && ((number1 * number2).toString() == editValue.text.toString())) ||
-            (operation == '/' && ((number1 / number2).toString() == editValue.text.toString()))
+        } else if ((operation == '+' && ((number_1 + number_2).toString() == editValue.text.toString())) ||
+            (operation == '-' && ((number_1 - number_2).toString() == editValue.text.toString())) ||
+            (operation == '*' && ((number_1 * number_2).toString() == editValue.text.toString())) ||
+            (operation == '/' && ((number_1 / number_2).toString() == editValue.text.toString()))
         ) {
             editBackgroundColor = Color.GREEN
             editValue.setBackgroundColor(editBackgroundColor)
@@ -151,16 +146,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun button_edit_enabled_false() {
         editValue.isEnabled = false
-       // buttonCheckEnable = false
         buttonCheck.isEnabled = false
-       // buttonStartEnable = true
         buttonStart.isEnabled = true
         count++
         binding.txtAllExamples.text = count.toString()
         percent = countRightAnswer * 100 / count.toDouble()
         binding.txtPercentageCorrectAnswers.text = String.format("%.2f%%", percent)
     }
-    private fun onButtonStartPressed(): Triple<Int, Int, Char> {
+    private fun onButtonStartPressed() {
         editValue.setText("")
         editBackgroundColor = Color.WHITE
         editValue.setBackgroundColor(editBackgroundColor)
@@ -180,13 +173,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.txtFirstOperand.text = number_1.toString()
         binding.txtSecondOperand.text = number_2.toString()
-       // buttonStartEnable = false
         buttonStart.isEnabled = false
         editValue.isEnabled = true
-       // buttonCheckEnable = true
+        editValue.requestFocus()
         buttonCheck.isEnabled = true
-
-        return Triple(number_1, number_2, operation)
     }
 
     private fun getRandomNumber(): Int {
