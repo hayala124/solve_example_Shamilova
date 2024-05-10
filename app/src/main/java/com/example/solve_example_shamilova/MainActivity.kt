@@ -3,6 +3,7 @@ package com.example.solve_example_shamilova
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -48,9 +49,9 @@ class MainActivity : AppCompatActivity() {
             count = 0
             percent = 0.00
             editBackgroundColor = ContextCompat.getColor(editValue.context, R.color.white)
-            buttonStart.isEnabled = buttonStartEnable
-            buttonCheck.isEnabled = buttonCheckEnable
-            editValue.isEnabled = editTextEnable
+            buttonStartEnable = true
+            buttonCheckEnable = true
+            editTextEnable = true
         }
         else {
             number_1 = savedInstanceState.getInt(FIRST_OPERAND)
@@ -94,20 +95,9 @@ class MainActivity : AppCompatActivity() {
         txtPercentageCorrectAnswers.setText(String.format("%.2f%%", percent))
         editValue.setBackgroundColor(editBackgroundColor)
 
-        if (btnStart.isEnabled == buttonStartEnable)
-            btnStart.isEnabled = buttonStartEnable
-        else
-            btnStart.isEnabled = !buttonStartEnable
-
-        if (btnCheck.isEnabled == buttonCheckEnable)
-            btnCheck.isEnabled = buttonCheckEnable
-        else
-            btnCheck.isEnabled = !buttonCheckEnable
-
-        if (editValue.isEnabled == editTextEnable)
-            editValue.isEnabled = editTextEnable
-        else
-            editValue.isEnabled = !editTextEnable
+        buttonStart.isEnabled = if (buttonStartEnable) true else false
+        buttonCheck.isEnabled = if (buttonCheckEnable) false else true
+        editValue.isEnabled = if (editTextEnable) false else true
     }
     companion object {
         @JvmStatic private val FIRST_OPERAND = "txtFirstOperand"
