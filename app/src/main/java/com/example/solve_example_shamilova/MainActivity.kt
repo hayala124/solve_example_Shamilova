@@ -3,177 +3,132 @@ package com.example.solve_example_shamilova
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
+import android.os.Parcelable
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.solve_example_shamilova.databinding.ActivityMainBinding
+import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var buttonStart: Button
-    private lateinit var buttonCheck: Button
-    private lateinit var editValue: EditText
-    private var number_1 = 0
-    private var number_2 = 0
-    private var operation = ' '
-    private var countRightAnswer = 0
-    private var countWrongAnswer = 0
-    private var count = 0
-    private var percent = 0.00
-    private var editBackgroundColor = Color.WHITE
-    private var buttonStartEnable = true
-    private var buttonCheckEnable = false
-    private var editTextEnable = false
+    private lateinit var editTextValue: TextView
+    lateinit var state: State
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
+        editTextValue = binding.editValue
 
-        buttonStart = binding.btnStart
-        buttonCheck = binding.btnCheck
-        editValue = binding.editValue
+        binding.btnStart.setOnClickListener { onButtonStartPressed() }
+        binding.btnCheck.setOnClickListener { onButtonCheckPressed() }
 
-        buttonStart.setOnClickListener { onButtonStartPressed() }
-        buttonCheck.setOnClickListener { onButtonCheckPressed() }
+        state = savedInstanceState?.getParcelable(KEY_STATE) ?: State(
+            number_1 = 0,
+            number_2 = 0,
+            operation = '+',
+            countRightAnswer = 0,
+            countWrongAnswer = 0,
+            countSolvedExamples = 0,
+            percent = 0.00,
+            editTextBackgroundColor = ContextCompat.getColor(this, R.color.white),
+            buttonStartEnable = true,
+            buttonCheckEnable = false,
+            editTextEnable = false
+        )
+        setState()
+    }
 
-        if (savedInstanceState == null) {
-            number_1 = 0
-            number_2 = 0
-            operation = '+'
-            countRightAnswer = 0
-            countWrongAnswer = 0
-            count = 0
-            percent = 0.00
-            editBackgroundColor = ContextCompat.getColor(editValue.context, R.color.white)
-            buttonStartEnable = true
-            buttonCheckEnable = true
-            editTextEnable = true
-        }
-        else {
-            number_1 = savedInstanceState.getInt(FIRST_OPERAND)
-            number_2 = savedInstanceState.getInt(SECOND_OPERAND)
-            operation = savedInstanceState.getChar(OPERATION)
-            countRightAnswer = savedInstanceState.getInt(COUNT_RIGHT_ANSWER)
-            countWrongAnswer = savedInstanceState.getInt(COUNT_WRONG_ANSWER)
-            count = savedInstanceState.getInt(COUNT)
-            percent = savedInstanceState.getDouble(PERCENT)
-            editBackgroundColor = savedInstanceState.getInt(BACKGROUND_COLOR)
-            buttonStart.isEnabled = savedInstanceState.getBoolean(BUTTON_START_ENABLED)
-            buttonCheck.isEnabled = savedInstanceState.getBoolean(BUTTON_CHECK_ENABLED)
-            editValue.isEnabled = savedInstanceState.getBoolean(EDIT_TEXT_ENABLED)
-        }
-        renderState()
+    private fun setState() = with(binding) {
+        txtFirstOperand.setText(state.number_1.toString())
+        txtSecondOperand.setText(state.number_2.toString())
+        txtOperation.setText(state.operation.toString())
+        txtNumberRight.setText(state.countRightAnswer.toString())
+        txtNumberWrong.setText(state.countWrongAnswer.toString())
+        txtAllExamples.setText(state.countSolvedExamples.toString())
+        txtPercentageCorrectAnswers.setText(String.format("%.2f%%", state.percent))
+        editValue.setBackgroundColor(state.editTextBackgroundColor)
+        btnStart.isEnabled = if (state.buttonStartEnable) true else false
+        btnCheck.isEnabled = if (state.buttonCheckEnable) true else false
+        editValue.isEnabled = if (state.editTextEnable) true else false
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putInt(FIRST_OPERAND, number_1)
-        outState.putInt(SECOND_OPERAND, number_2)
-        outState.putChar(OPERATION, operation)
-        outState.putInt(COUNT_RIGHT_ANSWER, countRightAnswer)
-        outState.putInt(COUNT_WRONG_ANSWER, countWrongAnswer)
-        outState.putInt(COUNT, count)
-        outState.putDouble(PERCENT, percent)
-        outState.putInt(BACKGROUND_COLOR, editBackgroundColor)
-        outState.putBoolean(BUTTON_START_ENABLED, buttonStart.isEnabled)
-        outState.putBoolean(BUTTON_CHECK_ENABLED, buttonCheck.isEnabled)
-        outState.putBoolean(EDIT_TEXT_ENABLED, editValue.isEnabled)
+        outState.putParcelable(KEY_STATE, state)
     }
 
-    private fun renderState() = with(binding) {
-        txtFirstOperand.setText(number_1.toString())
-        txtSecondOperand.setText(number_2.toString())
-        txtOperation.setText(operation.toString())
-        txtNumberRight.setText(countRightAnswer.toString())
-        txtNumberWrong.setText(countWrongAnswer.toString())
-        txtAllExamples.setText(count.toString())
-        txtPercentageCorrectAnswers.setText(String.format("%.2f%%", percent))
-        editValue.setBackgroundColor(editBackgroundColor)
+    @Parcelize
+    class State(
+        var number_1: Int,
+        var number_2: Int,
+        var operation: Char,
+        var countRightAnswer: Int,
+        var countWrongAnswer: Int,
+        var countSolvedExamples: Int,
+        var percent: Double,
+        var editTextBackgroundColor: Int,
+        var buttonStartEnable: Boolean,
+        var buttonCheckEnable: Boolean,
+        var editTextEnable: Boolean,
+    ) : Parcelable
 
-        buttonStart.isEnabled = if (buttonStartEnable) true else false
-        buttonCheck.isEnabled = if (buttonCheckEnable) false else true
-        editValue.isEnabled = if (editTextEnable) false else true
-    }
     companion object {
-        @JvmStatic private val FIRST_OPERAND = "txtFirstOperand"
-        @JvmStatic private val SECOND_OPERAND = "txtSecondOperand"
-        @JvmStatic private val OPERATION = "sign"
-        @JvmStatic private val COUNT_RIGHT_ANSWER = "countRightAnswer"
-        @JvmStatic private val COUNT_WRONG_ANSWER = "countWrongAnswer"
-        @JvmStatic private val COUNT = "count"
-        @JvmStatic private val PERCENT = "percent"
-        @JvmStatic private val BACKGROUND_COLOR = "color"
-        @JvmStatic private val BUTTON_START_ENABLED = "button_start"
-        @JvmStatic private val BUTTON_CHECK_ENABLED = "button_start"
-        @JvmStatic private val EDIT_TEXT_ENABLED = "edit_text"
+        @JvmStatic private val KEY_STATE = "STATE"
     }
+
     private fun onButtonCheckPressed() {
-        if (editValue.text.isEmpty()) {
+        if (editTextValue.text.isEmpty()) {
             Toast.makeText(applicationContext, "Введите ответ!", Toast.LENGTH_SHORT).show()
-        } else if ((operation == '+' && ((number_1 + number_2).toString() == editValue.text.toString())) ||
-            (operation == '-' && ((number_1 - number_2).toString() == editValue.text.toString())) ||
-            (operation == '*' && ((number_1 * number_2).toString() == editValue.text.toString())) ||
-            (operation == '/' && ((number_1 / number_2).toString() == editValue.text.toString()))
+        } else if ((state.operation == '+' && ((state.number_1 + state.number_2) == editTextValue.text.toString().toInt())) ||
+            (state.operation == '-' && ((state.number_1 - state.number_2) == editTextValue.text.toString().toInt())) ||
+            (state.operation == '*' && ((state.number_1 * state.number_2) == editTextValue.text.toString().toInt())) ||
+            (state.operation == '/' && ((state.number_1 / state.number_2) == editTextValue.text.toString().toInt()))
         ) {
-            editBackgroundColor = Color.GREEN
-            editValue.setBackgroundColor(editBackgroundColor)
-            countRightAnswer++
-            binding.txtNumberRight.text = countRightAnswer.toString()
+            state.editTextBackgroundColor = Color.GREEN
+            state.countRightAnswer++
             button_edit_enabled_false()
         } else {
-            editBackgroundColor = Color.RED
-            editValue.setBackgroundColor(editBackgroundColor)
-            countWrongAnswer++
-            binding.txtNumberWrong.text = countWrongAnswer.toString()
+            state.editTextBackgroundColor = Color.RED
+            state.countWrongAnswer++
             button_edit_enabled_false()
         }
+        setState()
     }
 
     private fun button_edit_enabled_false() {
-        editValue.isEnabled = false
-        buttonCheck.isEnabled = false
-        buttonStart.isEnabled = true
-        count++
-        binding.txtAllExamples.text = count.toString()
-        percent = countRightAnswer * 100 / count.toDouble()
-        binding.txtPercentageCorrectAnswers.text = String.format("%.2f%%", percent)
+        state.editTextEnable = !state.editTextEnable
+        state.buttonCheckEnable = !state.buttonCheckEnable
+        state.buttonStartEnable = !state.buttonStartEnable
+
+        state.countSolvedExamples++
+        state.percent = state.countRightAnswer * 100 / state.countSolvedExamples.toDouble()
+        setState()
     }
+
     private fun onButtonStartPressed() {
-        editValue.setText("")
-        editBackgroundColor = Color.WHITE
-        editValue.setBackgroundColor(editBackgroundColor)
-        operation = getRandomOperation()
-        binding.txtOperation.text = operation.toString()
+        editTextValue.setText("")
+        state.editTextBackgroundColor = Color.WHITE
+        editTextValue.isEnabled = true
+        binding.editValue.requestFocus()
+        state.operation = listOf('*', '/', '-', '+').random()
 
         do {
-            number_1 = getRandomNumber()
-            number_2 = getRandomNumber()
-            if (operation == '/') {
-                if (number_1 % number_2 == 0) {
+            state.number_1 = Random.nextInt(10, 100)
+            state.number_2 = Random.nextInt(10, 100)
+            if (state.operation == '/') {
+                if (state.number_1 % state.number_2 == 0) {
                     break
                 }
             } else
                 break
         } while (true)
 
-        binding.txtFirstOperand.text = number_1.toString()
-        binding.txtSecondOperand.text = number_2.toString()
-        buttonStart.isEnabled = false
-        editValue.isEnabled = true
-        editValue.requestFocus()
-        buttonCheck.isEnabled = true
-    }
+        state.buttonStartEnable = !state.buttonStartEnable
+        state.buttonCheckEnable = !state.buttonCheckEnable
+        state.editTextEnable = !state.editTextEnable
 
-    private fun getRandomNumber(): Int {
-        return Random.nextInt(10, 100)
-    }
-
-    private fun getRandomOperation(): Char {
-        return listOf('*', '/', '-', '+').random()
+        setState()
     }
 }
